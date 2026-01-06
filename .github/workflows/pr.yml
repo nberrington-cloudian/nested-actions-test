@@ -8,7 +8,7 @@ jobs:
     uses: ./.github/workflows/daily.yml
     secrets: inherit
     with:
-      builds: "[{\"v\": 1}, {\"v\": 2}]"
+      builds: "[1, 2]"
 
   secondary_daily:
     needs: [primary_daily]
@@ -22,8 +22,7 @@ jobs:
     uses: ./.github/workflows/daily.yml
     secrets: inherit
     with:
-      builds: "[{\"v\": 3}]"
-
+      builds: "[3]"
   prune:
     needs: [primary_daily, secondary_daily, rc_daily]  # Wait for all daily builds to finish before pruning
     runs-on: [ubuntu-slim]
