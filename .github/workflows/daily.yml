@@ -1,0 +1,34 @@
+name: Daily Builds test
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      builds:
+        required: true
+        type: string
+
+run-name: Daily Builds ${{ inputs.name }}
+
+jobs:
+  daily_test:
+    if: inputs.builds != '[]'
+    name: ${{ inputs.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        build: ${{ fromJson(inputs.builds) }}
+    uses: ./.github/workflows/release-build.yml
+    secrets: inherit
+    with:
+      version: ${{ matrix.build }}
+
+  skip_daily_test:    
+    if: inputs.builds == '[]'
+    name: No ${{ inputs.name }} builds to do
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: No builds to do
+        run: echo No ${{ inputs.name }} builds to do
