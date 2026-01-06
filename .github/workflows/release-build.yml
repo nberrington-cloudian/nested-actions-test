@@ -10,7 +10,14 @@ on:
 jobs:
   build:
     runs-on: [ubuntu-slim]
-    name: Build ${{ inputs.version }}
+    name: Build $
     steps:
       - name: Build version ${{ inputs.version }}
         run: echo Building version ${{ inputs.version }}
+
+  publish:
+    runs-on: [ubuntu-slim]
+    name: Publish ${{ inputs.version }}
+    steps:
+      - name: Publish version ${{ inputs.version }}
+        run: echo Publishing version ${{ inputs.version }}
