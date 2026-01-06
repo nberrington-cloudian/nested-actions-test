@@ -7,17 +7,18 @@ on:
         required: true
         type: string
 
+run-name: Build ${{ inputs.version }}        
 jobs:
   build:
     runs-on: [ubuntu-slim]
-    name: Build ${{ inputs.version }}
+    name: Build
     steps:
-      - name: Build version ${{ inputs.version }}
+      - name: Build
         run: echo Building version ${{ inputs.version }}
 
   publish:
     runs-on: [ubuntu-slim]
-    name: Publish ${{ inputs.version }}
+    name: Publish
     steps:
-      - name: Publish version ${{ inputs.version }}
+      - name: Publish
         run: echo Publishing version ${{ inputs.version }}

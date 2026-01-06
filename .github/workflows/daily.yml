@@ -10,6 +10,8 @@ on:
         required: true
         type: string
 
+run-name: Daily Builds ${{ inputs.name }}
+
 jobs:
   daily_test:
     if: inputs.builds != '[]'
