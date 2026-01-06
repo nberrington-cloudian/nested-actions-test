@@ -18,3 +18,10 @@ jobs:
     secrets: inherit
     with:
       version: ${{ matrix.build.v }}
+
+  skip_dailt_test:
+    if: inputs.builds == '[]'
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: No builds to do
+        run: echo "No builds to do"

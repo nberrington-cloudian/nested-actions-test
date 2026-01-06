@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: [ubuntu-slim]
+    name: Build ${{ inputs.version }}
     steps:
       - name: Build version ${{ inputs.version }}
         run: echo Building version ${{ inputs.version }}
