@@ -8,13 +8,15 @@ jobs:
     uses: ./.github/workflows/daily.yml
     secrets: inherit
     with:
-      builds: "[1, 2]"
+      name: primary
+      builds: "[\"1\", \"2\"]"
 
   secondary_daily:
     needs: [primary_daily]
     uses: ./.github/workflows/daily.yml
     secrets: inherit
     with:
+      name: secondary
       builds: "[]"
 
   rc_daily:
@@ -22,6 +24,7 @@ jobs:
     uses: ./.github/workflows/daily.yml
     secrets: inherit
     with:
+      name: rc
       builds: "[3]"
   prune:
     needs: [primary_daily, secondary_daily, rc_daily]  # Wait for all daily builds to finish before pruning
