@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  primary_daily:
+    uses: ./.github/workflows/daily.yml
+    secrets: inherit
+    with:
+      builds: "[{\"v\": 1}, {\"v\": 2}]"
+
+  secondary_daily:
+    needs: [primary_daily]
+    uses: ./.github/workflows/daily.yml
+    secrets: inherit
+    with:
+      builds: "[]"
+
+  rc_daily:
+    needs: [primary_daily, secondary_daily]
+    uses: ./.github/workflows/daily.yml
+    secrets: inherit
+    with:
+      builds: "[{\"v\": 3}]"
+
+  prune:
+    needs: [primary_daily, secondary_daily, rc_daily]  # Wait for all daily builds to finish before pruning
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: Delete old daily builds
+        # Delete all build directories older than 30 days
+        # Note this might leave dangling entries in the index.html changelog,
+        # these will be cleared up by the next hourly run
+        run: echo deleted
+
+
+  # Test other products build ok
+  check_other:
+    needs: [primary_daily, secondary_daily]  # Daily builds have priority, wait until they're done
+    strategy:
+      fail-fast: false
+      matrix:
+        product: [ "A" ]
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: Build other products
+        run: echo built ${{ matrix.product }}
+
+
+  cleanup:
+    if: always()
+    needs: [rc_daily, check_other]
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: Remove artefacts and logs
+        run: echo cleaned up

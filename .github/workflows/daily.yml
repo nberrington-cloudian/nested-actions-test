@@ -1,0 +1,20 @@
+name: Daily Builds test
+
+on:
+  workflow_call:
+    inputs:
+      builds:
+        required: true
+        type: string
+
+jobs:
+  daily_test:
+    if: inputs.builds != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        build: ${{ fromJson(inputs.builds) }}
+    uses: ./.github/workflows/release-build.yml
+    secrets: inherit
+    with:
+      version: ${{ matrix.build.v }}

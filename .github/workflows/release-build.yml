@@ -1,0 +1,15 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: [ubuntu-slim]
+    steps:
+      - name: Build version ${{ inputs.version }}
+        run: echo Building version ${{ inputs.version }}
