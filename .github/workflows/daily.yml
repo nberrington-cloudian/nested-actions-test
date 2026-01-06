@@ -15,7 +15,6 @@ jobs:
       matrix:
         build: ${{ fromJson(inputs.builds) }}
     uses: ./.github/workflows/release-build.yml
-    name: Building ${{ matrix.build.v }}
     secrets: inherit
     with:
       version: ${{ matrix.build }}
