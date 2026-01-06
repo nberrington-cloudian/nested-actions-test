@@ -20,7 +20,7 @@ jobs:
     with:
       version: ${{ matrix.build }}
 
-  skip_dailt_test:
+  skip_daily_test:
     if: inputs.builds == '[]'
     runs-on: [ubuntu-slim]
     steps:
